@@ -3,14 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-
-
-
-        @if(Route::current()->getName() == 'welcome')
-            <title>Welcom</title>
-        @else
-            @yield('title')
-        @endif
+        <title>Email code</title>
         <!-- Fonts -->
         <link href="https://fonts.bunny.net/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
@@ -28,9 +21,64 @@
         @yield('style')
     </head>
     <body >
-        @include('Layout.navbar')
+        <nav class="navbar navbar-expand-lg bg-body-tertiary">
+            <div class="container">
+              <a class="navbar-brand" href="#"> Custom auth </a>
+              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+              <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+
+                </ul>
+              </div>
+            </div>
+          </nav>
         <div class="container">
-            @yield('container')
+            <div class="container-sm mt-5 d-flex justify-content-center " >
+                <div class="card p-3" style="width: 60%;">
+                @if (Session::has('success'))
+                     <div class="alert alert-success mt-5">
+                        {{Session::get('success') }}
+                    </div>
+                @endif
+                @if (Session::has('error'))
+                    <div class="alert alert-danger mt-5">
+                        {{Session::get('error') }}
+                    </div>
+                @endif
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+                    <form action="{{route('code')}}" method="post" id="maindata">
+                        @csrf
+                        <ul class="list-group list-group-flush ">
+                            <div class="row mt-2 mb-2 ">
+                                <div class="col-lg-5 col-sm-12 ">
+                                    <label for="name1" class="align-middle mt-1" >Code:</label>
+                                </div>
+                                <div class="col-lg-7 col-sm-12">
+                                    <input type="text" name="code" id="name1" class="form-control" placeholder="Enter Code">
+                                </div>
+                            </div>
+
+                            <div class="row mt-2 mb-2 text-center">
+                                <div class="col">
+                                    <input type="submit" class="btn btn-primary"  value="Verify">
+                                </div>
+
+                            </div>
+                        </ul>
+                    </form>
+
+                </div>
+            </div>
         </div>
 
 
